@@ -11,7 +11,7 @@ connectDB();
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
-app.use('/api/goals', require('./routes/goalRoutes'))
+app.use('/api/books', require('./routes/bookRoutes'))
 app.use(errorHandler)
 
 app.listen(port, () => console.log(`server is run on port ${port}`))
@@ -19,4 +19,4 @@ app.listen(port, () => console.log(`server is run on port ${port}`))
 
 
 
-//http://localhost:5000/api/goals
+//http://localhost:5000/api/books
