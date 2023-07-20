@@ -16,13 +16,15 @@ const getBooks = asyncHandler(async (req, res) => {
 // @acces   Private
 
 const setBook = asyncHandler(async (req, res) => {
-    if (!req.body.text) {
+    if (!req.body.title || !req.body.author || !req.body.price) {
         res.status(400)
         throw new Error('Please add a text field')
     }
 
     const book = await Book.create({
-        text: req.body.text
+        title: req.body.title,
+        author:req.body.author,
+        price: req.body.price
     })
     res.status(200).json(book)
 })

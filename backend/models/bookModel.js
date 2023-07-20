@@ -3,10 +3,18 @@ const mongoose = require('mongoose')
 const bookSchema = mongoose.Schema(
     {
 
-        text: {
+        title: {
             type: String,
-            required: [true, 'Please add a text value']
+            required: [true, 'Please add a book tittle']
         },
+        author: {
+            type: String,
+            required: [true, 'Please add a book author']
+        },
+        price: {
+            type: Number,
+            required: [true, 'Please add book price']
+        }
     },
     {
         timestamps: true,
