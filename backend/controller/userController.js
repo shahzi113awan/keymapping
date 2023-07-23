@@ -4,7 +4,7 @@ const asyncHandler = require('express-async-handler')
 const User = require('../models/userModel')
 
 
-// @desc    Register new user
+// @desc    Register new user 
 // @route   POST /api/users
 // @acces   Public
 const registerUser = asyncHandler(async (req,res) => {
@@ -75,12 +75,7 @@ if(user && (await bcrypt.compare(password, user.password))){
 // @route   GET /api/users/me
 // @acces   Private
 const getMe =asyncHandler(async (req,res) => {
-    const { _id ,name, email } = await User.findById(req.user.id)
-    res.status(200).json({
-        id: _id,
-        name,
-        email,
-    })
+    res.status(200).json(req.user)
 })
 
 // Generate JWT
