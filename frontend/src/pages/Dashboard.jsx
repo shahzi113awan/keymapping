@@ -36,10 +36,16 @@ const Dashboard = () => {
         <p>Books Dashboard</p>
       </section>
       <BookForm />
-      <section className="content">
-       {books.map((book)=> (
-        <BookItem key = {book._id} book = {book}/>
-       ) )}
+      <section className='content'>
+        {books.length > 0 ? (
+          <div className='goals'>
+            {books.map((book) => (
+              <BookItem key={book._id} book ={book} />
+            ))}
+          </div>
+        ) : (
+          <h3>You have not set any goals</h3>
+        )}
       </section>
     </>
   );
