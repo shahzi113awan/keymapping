@@ -1,13 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import bookService from './bookService';
+
 const initialState = {
   books: [], // or some initial array of books
-  isError: false,
-  isSuccess: false,
   isLoading: false,
-  message: '',
+  isSuccess: false,
+  isError: false,
+  errorMessage: '',
 };
-
 
 // Create new book
 export const createBook = createAsyncThunk('books/create', async (bookData, thunkAPI) => {
@@ -24,18 +24,36 @@ export const createBook = createAsyncThunk('books/create', async (bookData, thun
 });
 
 // Get user books
-export const getGoals = createAsyncThunk('goals/getAll', async(_, thunkAPI)=> {
-   try {
+export const getBooks = createAsyncThunk('books/getAll', async(_, thunkAPI) => {
+  try {
     const token = thunkAPI.getState().auth.user.token;
-    return await bookService.getGoals(token);
-   } catch (error) {
+    return await bookService.getBooks(token);
+  } catch (error) {
     const message =
       (error.response && error.response.data && error.response.data.message) ||
       error.message ||
       error.toString();
     return thunkAPI.rejectWithValue(message);
-   } 
-})
+  } 
+});
+
+// Delete user Book
+export const deleteBook = createAsyncThunk(
+  'books/delete',
+  async (id, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await bookService.deleteBook(id, token);
+    } catch (error) {
+      const message =
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const bookSlice = createSlice({
   name: 'book',
   initialState,
@@ -46,6 +64,9 @@ export const bookSlice = createSlice({
     builder
       .addCase(createBook.pending, (state) => {
         state.isLoading = true;
+        state.isSuccess = false;
+        state.isError = false;
+        state.errorMessage = '';
       })
       .addCase(createBook.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -55,21 +76,40 @@ export const bookSlice = createSlice({
       .addCase(createBook.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        state.message = action.payload;
+        state.errorMessage = action.payload;
       })
-       .addCase(getGoals.pending, (state) => {
+      .addCase(getBooks.pending, (state) => {
         state.isLoading = true;
+        state.isSuccess = false;
+        state.isError = false;
+        state.errorMessage = '';
       })
-      .addCase(getGoals.fulfilled, (state, action) => {
+      .addCase(getBooks.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.books = action.payload
+        state.books = action.payload;
       })
-      .addCase(getGoals.rejected, (state, action) => {
+      .addCase(getBooks.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        state.message = action.payload;
+        state.errorMessage = action.payload;
       })
+      .addCase(deleteBook.pending, (state) => {
+        state.isLoading = true;
+        state.isSuccess = false;
+        state.isError = false;
+        state.errorMessage = '';
+      })
+      .addCase(deleteBook.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.books = state.books.filter((book) => book._id !== action.payload.id);
+      })
+      .addCase(deleteBook.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.errorMessage = action.payload;
+      });
   },
 });
 

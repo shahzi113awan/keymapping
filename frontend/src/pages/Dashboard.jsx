@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import BookForm from '../components/BookForm';
 import Spinner from '../components/Spinner';
-import { getGoals, reset } from '../features/books/bookSlice';
+import { getBooks, reset } from '../features/books/bookSlice';
 import BookItem from '../components/BookItem';
 
 const Dashboard = () => {
@@ -19,12 +19,12 @@ const Dashboard = () => {
     if (!user) {
       navigate('/login');
     }
-    dispatch(getGoals());
+    dispatch(getBooks());
     return () => {
       dispatch(reset());
     };
-  }, [user, navigate, isError, message, dispatch]);
-
+  }, [user, navigate, isError, dispatch, message]);
+  
   if (isLoading) {
     return <Spinner />;
   }

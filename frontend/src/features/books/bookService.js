@@ -1,10 +1,10 @@
 import axios from 'axios'
 
-const API_URL = '/api/goals/'
+const API_URL = '/api/books/'
 
 
 // Create new book 
-
+ 
 const createBook = async(bookData, token) => {
   const config = {
         headers : {
@@ -14,7 +14,7 @@ const createBook = async(bookData, token) => {
     const response = await axios.post(API_URL, bookData, config)
     return response.data    
 }
-// get yuser goals 
+// get user books 
 
 const getBooks = async(token) => {
     const config = {
@@ -26,9 +26,23 @@ const getBooks = async(token) => {
       return response.data    
   }
 
+  // Delete user books
+const deleteBook = async (bookId, token) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  
+    const response = await axios.delete(API_URL + bookId, config)
+  
+    return response.data
+  }
+
 const bookService = {
     createBook,
     getBooks,
+    deleteBook
 }
 
 export default bookService
