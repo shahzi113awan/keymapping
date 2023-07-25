@@ -19,7 +19,7 @@ const getBooks = asyncHandler(async (req, res) => {
 const setBook = asyncHandler(async (req, res) => {
     if (!req.body.title || !req.body.author || !req.body.price) {
         res.status(400)
-        throw new Error('Please add a text field')
+        throw new Error('Please add all fields')
     }
 
     const book = await Book.create({
@@ -30,7 +30,7 @@ const setBook = asyncHandler(async (req, res) => {
     })
     res.status(200).json(book)
 })
-
+ 
 // @desc    Update goal
 // @route   PUT/api/goals/:id
 // @acces   Private
@@ -63,7 +63,7 @@ const updateBook = asyncHandler(async (req, res) => {
 })
 
 // @desc    Delete goal
-// @route   DELETE/api/goals
+// @route   DELETE/api/goals 
 // @acces   Private
 
 const deleteBook = asyncHandler(async (req, res) => {
