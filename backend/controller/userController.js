@@ -54,7 +54,8 @@ if(user){
 // @acces   Public
 const loginUser = asyncHandler(async (req,res) => {
 const {email, password} = req.body
-//check fir user email
+
+//Check for user  by email in the database
 const user = await User.findOne({email})
 
 if(user && (await bcrypt.compare(password, user.password))){

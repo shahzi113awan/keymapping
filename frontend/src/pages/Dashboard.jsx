@@ -27,6 +27,8 @@ const Dashboard = () => {
     return <Spinner />;
   }
 
+
+
   return (
     <>
       <section className="heading">
@@ -38,7 +40,7 @@ const Dashboard = () => {
         {books.length > 0 ? (
           <div className='goals'>
             {books.map((book) => (
-              <BookItem key={book._id} book ={book} />
+              <BookItem key={book._id} book ={book}  />
             ))}
           </div>
         ) : (
