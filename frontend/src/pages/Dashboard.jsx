@@ -42,7 +42,7 @@ const Dashboard = () => {
             ))}
           </div>
         ) : (
-          <h3>You have not set any goals</h3>
+          <h3>No book is in BookStore</h3>
         )}
       </section>
     </>
