@@ -5,7 +5,7 @@ const user = JSON.parse(localStorage.getItem('user'))
 const initialState = {
     user: null ? user : null,
     isError: false,
-    isSuccess: false,
+    isSuccess: false, 
     isLoading: false,
     message:''
 }
@@ -38,7 +38,7 @@ export const login = createAsyncThunk(
 export const logout = createAsyncThunk('auth/logout',
 async () => {
     await authService.logout()
-})
+}) 
 
 export const authSlice = createSlice({
     name: 'auth',
